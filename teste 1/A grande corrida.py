@@ -66,7 +66,7 @@ ex, ey = 0, 0
 timer = 0
 
 # Botão
-botao = pygame.Rect(x//2 - 100, y//2 + 60, 200, 60)
+botao = pygame.Rect(x//2 - 100, y//2 + 60, 260, 60)
 
 # Funções
 def reset_inimigo():
