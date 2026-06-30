@@ -32,7 +32,7 @@ img_tiro = pygame.transform.scale(img_tiro, (30, 30))
 
 # Jogador
 px, py = 420, 420
-vel = 7
+vel = 10
 # colisão com bordas da tela
 if px < 0:
     px = 0
@@ -190,17 +190,11 @@ while rodando:
         pygame.display.update()
         continue
 
-    # Gameplay
     janela.blit(fundo, (0, 0))
 
     teclas = pygame.key.get_pressed()
 
-    if teclas[pygame.K_w]: py -= vel
-    if teclas[pygame.K_s]: py += vel
-    if teclas[pygame.K_a]: px -= vel
-    if teclas[pygame.K_d]: px += vel
-
-    # MOVIMENTO
+    # Movimentação
     if teclas[pygame.K_w]:
         py -= vel
     if teclas[pygame.K_s]:
@@ -229,18 +223,18 @@ while rodando:
         if ty < -40:
             tiro_ativo = False
 
-    # inimigo spawn mais longe
+    # Inimigo nasce mais longe
     iy += vel_inimigo
     if iy > y:
         ix = randint(100, x - 100)
-        # evita spawn em cima do jogador
+        # evita nasce em cima do jogador
         while abs(ix - px) < 120:
             ix = randint(100, x - 100)
         iy = -200
 
     colisao()
 
-    # explosão
+    # Explosão
     if explosao:
         pygame.draw.circle(janela, (255, 200, 0), (ex, ey), 30)
         timer -= 1
