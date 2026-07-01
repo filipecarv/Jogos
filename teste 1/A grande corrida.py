@@ -84,6 +84,7 @@ vida = 3
 hits = 0
 kills = 0
 kills_boss = 0
+kills_itens = 0
 
 game_over = False
 
@@ -115,11 +116,13 @@ def reset_inimigo():
     iy = -200
 
 def reset_jogo():
-    global vida, hits, kills, px, py, tx, ty, tiro_ativo, game_over, escudo, escudo_hits, intangivel, item_spawnado
+    global vida, hits, kills, kills_boss, kills_itens, px, py, tx, ty, tiro_ativo, game_over, escudo, escudo_hits, intangivel, item_spawnado
 
     vida = 3
     hits = 0
     kills = 0
+    kills_boss = 0
+    kills_itens = 0
     px, py = 420, 420
     reset_inimigo()
     tx, ty = px, py
@@ -209,7 +212,7 @@ def tela_game_over():
 
 
 def colisao():
-    global hits, vida, kills, kills_boss, explosao, ex, ey, timer, escudo, escudo_hits, item_spawnado, item_tipo, item_x, item_y, boss_ativo, boss_vida, tiro_ativo, tempo_boss_hit, boss_invulneravel
+    global hits, vida, kills, kills_boss, kills_itens, explosao, ex, ey, timer, escudo, escudo_hits, item_spawnado, item_tipo, item_x, item_y, boss_ativo, boss_vida, tiro_ativo, tempo_boss_hit, boss_invulneravel
 
     player = pygame.Rect(px, py, 50, 50)
     inimigo = pygame.Rect(ix, iy, 50, 50)
@@ -218,13 +221,14 @@ def colisao():
     if tiro.colliderect(inimigo):
         kills += 1
         kills_boss += 1
+        kills_itens += 1
         explosao = True
         ex, ey = ix, iy
         timer = 10
         reset_inimigo()
 
-        if kills >= 10 and not item_spawnado:
-            kills = 0
+        if kills_itens >= 10 and not item_spawnado:
+            kills_itens = 0
             item_spawnado = True
             item_tipo = itens_tipos[randint(0, len(itens_tipos)-1)]
             item_x = randint(50, x - 50)
@@ -262,6 +266,11 @@ def colisao():
             boss_vida -= 1
             tiro_ativo = False
             if boss_vida <= 0:
+                kills += 5
+                kills_itens += 3
+                explosao = True
+                ex, ey = boss_x, boss_y
+                timer = 10
                 boss_ativo = False
 
     if player.colliderect(inimigo) and not intangivel:
@@ -279,7 +288,7 @@ def colisao():
                 som_morte.play()
 
 def pegar_item():
-    global item_spawnado, kills, item_tipo, vida, escudo, escudo_hits, hits, intangivel, tempo_intangivel
+    global item_spawnado, kills_itens, item_tipo, vida, escudo, escudo_hits, hits, intangivel, tempo_intangivel
 
     if not item_spawnado:
         return
@@ -301,7 +310,7 @@ def pegar_item():
         # Some o item
         item_spawnado = False
         item_tipo = None
-        kills = 0
+        kills_itens = 0
 
 # Loop
 rodando = True
