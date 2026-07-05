@@ -1,13 +1,24 @@
 import pygame
+import os
+import sys
 from pygame import mixer
 from random import randint
 
 pygame.init()
 mixer.init()
 
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
+
 # Sons
-som_tiro = mixer.Sound("teste 1/imagens/Tiro.mp3")
-som_morte = mixer.Sound("teste 1/imagens/Morte.mp3")
+som_tiro = mixer.Sound(resource_path("imagens/Tiro.mp3"))
+som_morte = mixer.Sound(resource_path("imagens/Morte.mp3"))
 
 # Tela
 info = pygame.display.Info()
@@ -26,17 +37,19 @@ fonte_btn = pygame.font.SysFont("Arial", 30)
 clock = pygame.time.Clock()
 
 # Imagens
-fundo = pygame.image.load("teste 1/imagens/Fundo.png")
-fundo = pygame.transform.scale(fundo, (x, y))
+# fundo = pygame.image.load("teste 1/imagens/Fundo.png")
+fundo = pygame.image.load(resource_path("imagens/Fundo.png"))
 
-img_player = pygame.image.load("teste 1/imagens/Jogador.png").convert_alpha()
-img_inimigo = pygame.image.load("teste 1/imagens/Inimigo.png").convert_alpha()
-img_tiro = pygame.image.load("teste 1/imagens/Tiro.png").convert_alpha()
-img_vida = pygame.image.load("teste 1/imagens/Vida.png").convert_alpha()
-img_escudo = pygame.image.load("teste 1/imagens/Escudo.png").convert_alpha()
-img_food = pygame.image.load("teste 1/imagens/Comida.png").convert_alpha()
-img_intangivel = pygame.image.load("teste 1/imagens/Intangibilidade.png").convert_alpha()
-img_coracao = pygame.image.load("teste 1/imagens/Vida.png").convert_alpha()
+fundo = pygame.transform.scale(fundo, (x, y))
+img_player = pygame.image.load(resource_path("imagens/Jogador.png")).convert_alpha()
+img_inimigo = pygame.image.load(resource_path("imagens/Inimigo.png")).convert_alpha()
+img_tiro = pygame.image.load(resource_path("imagens/Tiro.png")).convert_alpha()
+img_vida = pygame.image.load(resource_path("imagens/Vida.png")).convert_alpha()
+img_escudo = pygame.image.load(resource_path("imagens/Escudo.png")).convert_alpha()
+img_food = pygame.image.load(resource_path("imagens/Comida.png")).convert_alpha()
+img_intangivel = pygame.image.load(resource_path("imagens/Intangibilidade.png")).convert_alpha()
+img_coracao = pygame.image.load(resource_path("imagens/Vida.png")).convert_alpha()
+
 img_coracao = pygame.transform.scale(img_coracao,(32,32))
 img_tiro = pygame.transform.scale(img_tiro, (30, 30))
 img_vida = pygame.transform.scale(img_vida, (30, 30))
